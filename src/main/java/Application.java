@@ -1,5 +1,6 @@
 import dao.ConnectionMaker;
 import dao.DConnectionMaker;
+import dao.JdbcContext;
 import dao.UserDao;
 import domain.User;
 
@@ -10,10 +11,11 @@ public class Application {
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
 
         // N, C 교체 가능
-        ConnectionMaker connectionMaker = new DConnectionMaker();
+//        ConnectionMaker connectionMaker = new DConnectionMaker();
 //        ConnectionMaker connectionMaker = new NConnectionMaker();
 
-        UserDao userDao = new UserDao(connectionMaker);
+
+        UserDao userDao = null;
 
         userDao.deleteAll();
 

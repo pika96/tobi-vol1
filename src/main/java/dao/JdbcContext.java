@@ -29,4 +29,8 @@ public class JdbcContext {
             if (c != null) { try { c.close(); } catch (SQLException e) {} }
         }
     }
+
+    public DataSource getDataSource() {
+        return dataSource;
+    }
 }
