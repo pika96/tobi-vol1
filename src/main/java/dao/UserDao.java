@@ -18,8 +18,23 @@ public class UserDao {
     /*
      * User 추가
      */
-    public void add(User user) throws ClassNotFoundException, SQLException {
-        StatementStrategy strategy = new AddStatement(user);
+    public void add(final User user) throws ClassNotFoundException, SQLException {
+
+        class AddStatement implements StatementStrategy {
+
+            @Override
+            public PreparedStatement makePreparedStatement(Connection c) throws SQLException {
+                PreparedStatement ps = c.prepareStatement(
+                        "insert into users(id, name, password) values(?,?,?)");
+                ps.setString(1, user.getId());
+                ps.setString(2, user.getName());
+                ps.setString(3, user.getPassword());
+
+                return ps;
+            }
+        }
+
+        StatementStrategy strategy = new AddStatement();
         jdbcContextWithStatementStrategy(strategy);
     }
 
@@ -63,31 +78,16 @@ public class UserDao {
      */
     public void deleteAll() throws ClassNotFoundException, SQLException {
 
-        Connection c = null;
-        PreparedStatement ps = null;
-        try {
-            c = connectionMaker.makeNewConnection();
-
-            StatementStrategy strategy = new DeleteAllStatement();
-            jdbcContextWithStatementStrategy(strategy);
-        } catch (SQLException e) {
-            throw e;
-        } finally {
-            if (ps != null) {
-                try {
-                    ps.close();
-                } catch (SQLException e) {
-
-                }
-            }
-            if (c != null) {
-                try {
-                    c.close();
-                } catch (SQLException e) {
-
-                }
+        class DeleteAllStatement implements StatementStrategy {
+            @Override
+            public PreparedStatement makePreparedStatement(Connection c) throws SQLException {
+                PreparedStatement ps = c.prepareStatement("delete from users");
+                return ps;
             }
         }
+
+        StatementStrategy strategy = new DeleteAllStatement();
+        jdbcContextWithStatementStrategy(strategy);
     }
 
     public int getCount() throws ClassNotFoundException, SQLException {
