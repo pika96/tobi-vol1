@@ -26,6 +26,19 @@ public class UserDaoTest {
     }
 
     @Test
+    void add() throws SQLException, ClassNotFoundException {
+        User userPika = new User();
+        userPika.setId("1");
+        userPika.setName("pika");
+        userPika.setPassword("123");
+
+        userDao.add(userPika);
+
+        User findById = userDao.get(userPika.getId());
+        assertThat(findById).isEqualTo(userPika);
+    }
+
+    @Test
     void deleteAll() throws SQLException, ClassNotFoundException {
         User userPika = new User();
         userPika.setId("1");
