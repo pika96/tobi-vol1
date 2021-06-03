@@ -1,17 +1,46 @@
 package dao;
 
-import dao.CountingConnectionMaker;
-import dao.CountingDaoFactory;
-import dao.UserDao;
+import domain.User;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import java.sql.SQLException;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
 public class UserDaoTest {
-    public static void main(String[] args) {
+
+    private UserDao userDao;
+
+    @BeforeEach
+    void setUp() throws SQLException, ClassNotFoundException {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(CountingDaoFactory.class);
-        UserDao dao = context.getBean("userDao", UserDao.class);
+        userDao = context.getBean(UserDao.class);
+        userDao.deleteAll();
+    }
 
-        CountingConnectionMaker ccm = context.getBean("connectionMaker", CountingConnectionMaker.class);
+    @Test
+    void notNull() {
+        assertThat(userDao).isNotNull();
+    }
 
-        System.out.println("Connection counter : " + ccm.getCounter());
+    @Test
+    void deleteAll() throws SQLException, ClassNotFoundException {
+        User userPika = new User();
+        userPika.setId("1");
+        userPika.setName("pika");
+        userPika.setPassword("123");
+
+        User userMark = new User();
+        userMark.setId("2");
+        userMark.setName("mark");
+        userMark.setPassword("123");
+
+        userDao.add(userPika);
+        userDao.add(userMark);
+
+        assertThat(userDao.getCount()).isEqualTo(2);
+
     }
 }

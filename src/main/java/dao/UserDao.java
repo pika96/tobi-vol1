@@ -77,8 +77,7 @@ public class UserDao {
             c = connectionMaker.makeNewConnection();
 
             StatementStrategy strategy = new DeleteAllStatement();
-            ps = strategy.makePreparedStatement(c);
-            ps.executeUpdate();
+            jdbcContextWithStatementStrategy(strategy);
         } catch (SQLException e) {
             throw e;
         } finally {
@@ -135,6 +134,24 @@ public class UserDao {
 
                 }
             }
+        }
+    }
+
+    public void jdbcContextWithStatementStrategy(StatementStrategy stmt) throws ClassNotFoundException, SQLException {
+        Connection c = null;
+        PreparedStatement ps = null;
+
+        try {
+            c = connectionMaker.makeNewConnection();
+
+            ps = stmt.makePreparedStatement(c);
+
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            if (ps != null) { try { ps.close(); } catch (SQLException e) {} }
+            if (c != null) { try { c.close(); } catch (SQLException e) {} }
         }
     }
 }
