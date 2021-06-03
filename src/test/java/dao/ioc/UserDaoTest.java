@@ -1,13 +1,18 @@
 package dao.ioc;
 
 import domain.User;
+import org.h2.jdbc.JdbcSQLNonTransientException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLException;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+@Transactional
 public class UserDaoTest {
 
     private UserDao userDao;
@@ -28,5 +33,11 @@ public class UserDaoTest {
         userDao.add(user);
 
         assertThat(userDao.get(user.getId())).isEqualTo(user);
+    }
+
+    @Test
+    void getTest() {
+        assertThatThrownBy(() -> userDao.get("Empty"))
+                .isInstanceOf(JdbcSQLNonTransientException.class);
     }
 }

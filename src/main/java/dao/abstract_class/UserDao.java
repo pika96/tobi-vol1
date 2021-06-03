@@ -23,8 +23,8 @@ public abstract class UserDao {
     }
 
     /*
-    * User 정보 가져오기
-    */
+     * User 정보 가져오기
+     */
     public User get(String id) throws ClassNotFoundException, SQLException {
 
         Connection c = getConnection();

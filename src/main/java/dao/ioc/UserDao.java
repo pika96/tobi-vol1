@@ -14,6 +14,7 @@ public class UserDao {
     public UserDao(ConnectionMaker connectionMaker) {
         this.connectionMaker = connectionMaker;
     }
+
     /*
      * User 추가
      */
@@ -31,8 +32,8 @@ public class UserDao {
     }
 
     /*
-    * User 정보 가져오기
-    */
+     * User 정보 가져오기
+     */
     public User get(String id) throws ClassNotFoundException, SQLException {
 
         Connection c = connectionMaker.makeNewConnection();
