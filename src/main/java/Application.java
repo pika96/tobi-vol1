@@ -1,8 +1,6 @@
-import dao.abstract_class.NUserDao;
-import dao.class_separate.ConnectionMaker;
-import dao.class_separate.DConnectionMaker;
-import dao.class_separate.NConnectionMaker;
-import dao.class_separate.UserDao;
+import dao.ConnectionMaker;
+import dao.DConnectionMaker;
+import dao.UserDao;
 import domain.User;
 
 import java.sql.SQLException;
@@ -17,7 +15,7 @@ public class Application {
 
         UserDao userDao = new UserDao(connectionMaker);
 
-        userDao.init();
+        userDao.deleteAll();
 
         User user = new User();
         user.setId("pika");

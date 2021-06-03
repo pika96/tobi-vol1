@@ -1,4 +1,4 @@
-package dao.ioc;
+package dao;
 
 import domain.User;
 
@@ -69,11 +69,10 @@ public class UserDao {
     /*
      * User 정보 초기화
      */
-    public void init() throws ClassNotFoundException, SQLException {
+    public void deleteAll() throws ClassNotFoundException, SQLException {
 
         Connection c = connectionMaker.makeNewConnection();
-        PreparedStatement ps = c.prepareStatement(
-                "TRUNCATE TABLE users");
+        PreparedStatement ps = c.prepareStatement("delete from users");
         ps.executeUpdate();
         ps.close();
         c.close();

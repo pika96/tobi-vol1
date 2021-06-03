@@ -1,5 +1,8 @@
-package dao.counting;
+package dao;
 
+import dao.CountingConnectionMaker;
+import dao.CountingDaoFactory;
+import dao.UserDao;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class UserDaoConnectionCountingTest {
