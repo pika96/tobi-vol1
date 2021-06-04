@@ -2,6 +2,7 @@ package dao;
 
 import domain.User;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,8 +12,8 @@ public class UserDao {
 
     private JdbcContext jdbcContext;
 
-    public UserDao(JdbcContext jdbcContext) {
-        this.jdbcContext = jdbcContext;
+    public UserDao(DataSource dataSource) {
+        this.jdbcContext = new JdbcContext(dataSource);
     }
 
     /*

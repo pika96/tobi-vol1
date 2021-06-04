@@ -1,21 +1,19 @@
-import dao.ConnectionMaker;
-import dao.DConnectionMaker;
-import dao.JdbcContext;
-import dao.UserDao;
+import dao.*;
 import domain.User;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import javax.sql.DataSource;
 import java.sql.SQLException;
 
 public class Application {
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
 
-        // N, C 교체 가능
-//        ConnectionMaker connectionMaker = new DConnectionMaker();
-//        ConnectionMaker connectionMaker = new NConnectionMaker();
+        AnnotationConfigApplicationContext ac = new AnnotationConfigApplicationContext(DaoFactory.class);
 
+        DataSource dataSource = ac.getBean(DataSource.class);
 
-        UserDao userDao = null;
+        UserDao userDao = new UserDao(dataSource);
 
         userDao.deleteAll();
 
