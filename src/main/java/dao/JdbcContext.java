@@ -25,8 +25,18 @@ public class JdbcContext {
         } catch (SQLException e) {
             throw e;
         } finally {
-            if (ps != null) { try { ps.close(); } catch (SQLException e) {} }
-            if (c != null) { try { c.close(); } catch (SQLException e) {} }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) {
+                }
+            }
+            if (c != null) {
+                try {
+                    c.close();
+                } catch (SQLException e) {
+                }
+            }
         }
     }
 
@@ -34,7 +44,22 @@ public class JdbcContext {
         workWithStatementStrategy(new StatementStrategy() {
             @Override
             public PreparedStatement makePreparedStatement(Connection c) throws SQLException {
-                PreparedStatement ps = c.prepareStatement("delete from users");
+                PreparedStatement ps = c.prepareStatement(query);
+                return ps;
+            }
+        });
+    }
+
+    public void executeSql(final String query, final String... values) throws SQLException {
+        workWithStatementStrategy(new StatementStrategy() {
+            @Override
+            public PreparedStatement makePreparedStatement(Connection c) throws SQLException {
+                PreparedStatement ps = c.prepareStatement(query);
+
+                for (int i = 0; i < values.length; i++) {
+                    ps.setString(i + 1, values[i]);
+                }
+
                 return ps;
             }
         });
