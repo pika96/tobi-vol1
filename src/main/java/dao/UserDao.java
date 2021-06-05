@@ -74,7 +74,7 @@ public class UserDao {
      * User 정보 초기화
      */
     public void deleteAll() throws ClassNotFoundException, SQLException {
-        executeSql("delete from users");
+        this.jdbcContext.executeSql("delete from users");
     }
 
     public int getCount() throws ClassNotFoundException, SQLException {
@@ -114,15 +114,5 @@ public class UserDao {
                 }
             }
         }
-    }
-
-    private void executeSql(final String query) throws SQLException {
-        this.jdbcContext.workWithStatementStrategy(new StatementStrategy() {
-            @Override
-            public PreparedStatement makePreparedStatement(Connection c) throws SQLException {
-                PreparedStatement ps = c.prepareStatement("delete from users");
-                return ps;
-            }
-        });
     }
 }

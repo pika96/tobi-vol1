@@ -30,6 +30,16 @@ public class JdbcContext {
         }
     }
 
+    public void executeSql(final String query) throws SQLException {
+        workWithStatementStrategy(new StatementStrategy() {
+            @Override
+            public PreparedStatement makePreparedStatement(Connection c) throws SQLException {
+                PreparedStatement ps = c.prepareStatement("delete from users");
+                return ps;
+            }
+        });
+    }
+
     public DataSource getDataSource() {
         return dataSource;
     }
