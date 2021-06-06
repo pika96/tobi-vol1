@@ -73,4 +73,10 @@ public class UserDaoTest {
                 .containsExactly(userPika, userMark, userWeg);
     }
 
+    @Test
+    void getAllWithEmpty() {
+        List<User> users = userDao.getAll();
+
+        assertThat(users).hasSize(0);
+    }
 }
